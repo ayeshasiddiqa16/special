@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For You</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+min-height:100vh;
+background:linear-gradient(135deg,#2b2e4a,#4b3f72,#8a79af);
+display:flex;
+align-items:center;
+justify-content:center;
+overflow-y:auto;
+color:white;
+padding:20px 0;
+scroll-behavior:smooth;
+}
+
+/* floating glow circles */
+
+body::before,
+body::after{
+content:'';
+position:absolute;
+width:400px;
+height:400px;
+background:rgba(255,255,255,0.06);
+border-radius:50%;
+filter:blur(120px);
+animation:float 8s infinite alternate;
+}
+
+body::after{
+top:60%;
+left:60%;
+animation-delay:3s;
+}
+
+@keyframes float{
+from{transform:translateY(0);}
+to{transform:translateY(-40px);}
+}
+
+.container{
+text-align:center;
+width:90%;
+max-width:750px;
+padding:40px;
+border-radius:25px;
+background:rgba(255,255,255,0.07);
+backdrop-filter:blur(12px);
+box-shadow:0 8px 40px rgba(0,0,0,0.25);
+animation:fadeIn 1.5s ease;
+
+max-height:85vh;
+overflow-y:auto;
+position:relative;
+}
+
+/* premium fade showing scroll */
+
+.container::after{
+content:'';
+position:sticky;
+bottom:-40px;
+left:0;
+width:100%;
+height:60px;
+background:linear-gradient(transparent, rgba(43,46,74,0.9));
+pointer-events:none;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-weight:400;
+margin-bottom:10px;
+}
+
+p{
+opacity:0.9;
+margin-bottom:30px;
+}
+
+/* choice boxes */
+
+.choice-box{
+display:flex;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.card{
+padding:20px 35px;
+border-radius:18px;
+background:rgba(255,255,255,0.10);
+cursor:pointer;
+transition:.35s;
+min-width:150px;
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.04);
+background:rgba(255,255,255,0.20);
+}
+
+/* hidden sections */
+
+.section{
+display:none;
+animation:fadeIn 0.7s ease;
+}
+
+.show{
+display:block;
+}
+
+button{
+margin-top:25px;
+padding:10px 18px;
+border:none;
+border-radius:12px;
+background:#ffffff2a;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#ffffff4a;
+}
+
+/* poem styling */
+
+.poem{
+font-family:'Playfair Display',serif;
+line-height:1.8;
+font-size:18px;
+white-space:pre-line;
+}
+
+/* rating stars */
+
+.stars{
+margin-top:20px;
+font-size:26px;
+cursor:pointer;
+}
+
+.star{
+opacity:.5;
+transition:.2s;
+}
+
+.star.active{
+opacity:1;
+transform:scale(1.2);
+}
+
+/* aesthetic scrollbar */
+
+.container::-webkit-scrollbar{
+width:6px;
+}
+
+.container::-webkit-scrollbar-thumb{
+background:rgba(255,255,255,0.35);
+border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- MAIN SCREEN -->
+
+<div id="home" class="section show">
+<h1>A Small World Awaits...</h1>
+<p>Some words are meant to be opened slowly.<br>
+Choose what your heart wishes to read tonight.</p>
+
+<div class="choice-box">
+<div class="card" onclick="openSection('poemChoice')">🌙 Poem</div>
+<div class="card" onclick="openSection('letterChoice')">💌 Letter</div>
+</div>
+</div>
+
+
+<!-- POEM -->
+
+<div id="poemChoice" class="section">
+
+<button onclick="goHome()">← Back</button>
+
+<h1>For Quiet Hearts</h1>
+
+<div class="poem">
+
+If I could fold the night,
+I would place it gently in your hands —
+so whenever darkness found you,
+you would remember
+that even the sky bends
+to become something beautiful.
+
+You are not a passing moment.
+You are the pause between chaos,
+the soft echo after laughter,
+the calm the ocean secretly envies.
+
+And if someday
+you forget how brightly you glow,
+look for me —
+I will be the one
+still believing in your light.
+
+</div>
+
+<div class="stars">
+<span class="star" onclick="rate(1)">★</span>
+<span class="star" onclick="rate(2)">★</span>
+<span class="star" onclick="rate(3)">★</span>
+<span class="star" onclick="rate(4)">★</span>
+<span class="star" onclick="rate(5)">★</span>
+</div>
+
+<button onclick="goHome()">← Back</button>
+</div>
+
+
+
+<!-- LETTER CHOICE -->
+
+<div id="letterChoice" class="section">
+
+<button onclick="goHome()">← Back</button>
+
+<h1>Letters Hold What Voices Cannot</h1>
+
+<div class="choice-box">
+<div class="card" onclick="openSection('newLetter')">✨ New Letter</div>
+<div class="card" onclick="openSection('oldLetter')">📜 Last Year's</div>
+</div>
+
+<button onclick="goHome()">← Back</button>
+</div>
+
+
+
+<!-- NEW LETTER -->
+
+<div id="newLetter" class="section">
+
+<button onclick="backToLetters()">← Back</button>
+
+<h1>A Letter Written Today</h1>
+
+<p style="white-space:pre-line; text-align:left;">
+
+There is something quietly extraordinary about the way certain people
+enter our lives — not loudly, not dramatically —
+but like sunrise… inevitable and warm.
+
+I don’t know when you became a thought I return to
+in the middle of ordinary days,
+but now your presence feels stitched
+into the fabric of my hours.
+
+If life is a long journey,
+then meeting you feels like discovering
+I was never walking alone.
+
+And perhaps I won't say this often,
+but the world is softer
+simply because you are in it.
+
+</p>
+
+<button onclick="backToLetters()">← Back</button>
+</div>
+
+
+
+<!-- OLD LETTER -->
+
+<div id="oldLetter" class="section">
+
+<button onclick="backToLetters()">← Back</button>
+
+<h1>A Letter From Last Year</h1>
+
+<p style="white-space:pre-line; text-align:left;">
+
+A year ago,
+I wondered if time would blur certain memories.
+
+It didn’t.
+
+Some people remain vivid —
+untouched by distance,
+unchanged by seasons.
+
+You were one of those rare constants,
+like a favorite melody the heart refuses to forget.
+
+And if time has taught me anything,
+it is this:
+
+Some connections are never truly past tense.
+
+</p>
+
+<button onclick="backToLetters()">← Back</button>
+</div>
+
+</div>
+
+
+<script>
+
+function openSection(id){
+document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('show'));
+document.getElementById(id).classList.add('show');
+}
+
+function goHome(){
+openSection('home');
+}
+
+function backToLetters(){
+openSection('letterChoice');
+}
+
+/* rating */
+
+function rate(num){
+let stars=document.querySelectorAll('.star');
+stars.forEach((star,i)=>{
+star.classList.toggle('active',i<num);
+});
+}
+
+</script>
+
+</body>
+</html>
