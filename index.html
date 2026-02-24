@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>For You</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
@@ -19,7 +18,9 @@ font-family:'Poppins',sans-serif;
 
 body{
 min-height:100vh;
-background:linear-gradient(135deg,#2b2e4a,#4b3f72,#8a79af);
+background:linear-gradient(-45deg,#1e1f3a,#3c2f58,#6e5aa3,#2a2c4a);
+background-size:400% 400%;
+animation:gradientFlow 15s ease infinite;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -27,26 +28,38 @@ overflow-y:auto;
 color:white;
 padding:20px 0;
 scroll-behavior:smooth;
+position:relative;
 }
 
-/* floating glow circles */
+@keyframes gradientFlow{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* soft floating glow */
 
 body::before,
 body::after{
 content:'';
 position:absolute;
-width:400px;
-height:400px;
-background:rgba(255,255,255,0.06);
+width:350px;
+height:350px;
+background:rgba(255,255,255,0.05);
 border-radius:50%;
-filter:blur(120px);
-animation:float 8s infinite alternate;
+filter:blur(100px);
+animation:float 10s infinite alternate;
+}
+
+body::before{
+top:-50px;
+left:-80px;
 }
 
 body::after{
-top:60%;
-left:60%;
-animation-delay:3s;
+bottom:-60px;
+right:-80px;
+animation-delay:4s;
 }
 
 @keyframes float{
@@ -60,27 +73,14 @@ width:90%;
 max-width:750px;
 padding:40px;
 border-radius:25px;
-background:rgba(255,255,255,0.07);
-backdrop-filter:blur(12px);
-box-shadow:0 8px 40px rgba(0,0,0,0.25);
-animation:fadeIn 1.5s ease;
-
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(14px);
+box-shadow:0 10px 45px rgba(0,0,0,0.35);
+animation:fadeIn 1.2s ease;
 max-height:85vh;
 overflow-y:auto;
 position:relative;
-}
-
-/* premium fade showing scroll */
-
-.container::after{
-content:'';
-position:sticky;
-bottom:-40px;
-left:0;
-width:100%;
-height:60px;
-background:linear-gradient(transparent, rgba(43,46,74,0.9));
-pointer-events:none;
+display:none; /* hidden until password correct */
 }
 
 @keyframes fadeIn{
@@ -91,15 +91,14 @@ to{opacity:1; transform:translateY(0);}
 h1{
 font-family:'Playfair Display',serif;
 font-weight:400;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
 p{
 opacity:0.9;
 margin-bottom:30px;
+line-height:1.6;
 }
-
-/* choice boxes */
 
 .choice-box{
 display:flex;
@@ -111,22 +110,20 @@ flex-wrap:wrap;
 .card{
 padding:20px 35px;
 border-radius:18px;
-background:rgba(255,255,255,0.10);
+background:rgba(255,255,255,0.12);
 cursor:pointer;
 transition:.35s;
 min-width:150px;
 }
 
 .card:hover{
-transform:translateY(-6px) scale(1.04);
-background:rgba(255,255,255,0.20);
+transform:translateY(-6px) scale(1.05);
+background:rgba(255,255,255,0.22);
 }
-
-/* hidden sections */
 
 .section{
 display:none;
-animation:fadeIn 0.7s ease;
+animation:fadeIn 0.6s ease;
 }
 
 .show{
@@ -148,16 +145,12 @@ button:hover{
 background:#ffffff4a;
 }
 
-/* poem styling */
-
 .poem{
 font-family:'Playfair Display',serif;
 line-height:1.8;
 font-size:18px;
 white-space:pre-line;
 }
-
-/* rating stars */
 
 .stars{
 margin-top:20px;
@@ -166,7 +159,7 @@ cursor:pointer;
 }
 
 .star{
-opacity:.5;
+opacity:.4;
 transition:.2s;
 }
 
@@ -174,8 +167,6 @@ transition:.2s;
 opacity:1;
 transform:scale(1.2);
 }
-
-/* aesthetic scrollbar */
 
 .container::-webkit-scrollbar{
 width:6px;
@@ -186,26 +177,94 @@ background:rgba(255,255,255,0.35);
 border-radius:10px;
 }
 
+/* ===== PASSWORD OVERLAY ===== */
+
+#passwordOverlay{
+position:fixed;
+inset:0;
+background:linear-gradient(-45deg,#1e1f3a,#3c2f58,#6e5aa3,#2a2c4a);
+background-size:400% 400%;
+animation:gradientFlow 15s ease infinite;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.password-box{
+background:rgba(255,255,255,0.08);
+padding:40px;
+border-radius:20px;
+backdrop-filter:blur(14px);
+text-align:center;
+width:90%;
+max-width:400px;
+box-shadow:0 10px 45px rgba(0,0,0,0.35);
+}
+
+.password-box h2{
+font-family:'Playfair Display',serif;
+margin-bottom:15px;
+}
+
+.password-box input{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+width:100%;
+margin-bottom:15px;
+outline:none;
+}
+
+.password-box button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#ffffff2a;
+color:white;
+cursor:pointer;
+}
+
+.password-box button:hover{
+background:#ffffff4a;
+}
+
+.error{
+color:#ffb3b3;
+font-size:14px;
+margin-top:10px;
+display:none;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- PASSWORD SCREEN -->
+<div id="passwordOverlay">
+<div class="password-box">
+<h2>Enter Password</h2>
+<input type="password" id="passwordInput" placeholder="Password">
+<button onclick="checkPassword()">Unlock</button>
+<div class="error" id="errorMsg">Wrong password.</div>
+</div>
+</div>
 
-<!-- MAIN SCREEN -->
+<!-- ORIGINAL WEBSITE (UNCHANGED) -->
+<div class="container" id="mainContent">
 
 <div id="home" class="section show">
 <h1>A Small World Awaits...</h1>
-<p>Some words are meant to be opened slowly.<br>
-Choose what your heart wishes to read tonight.</p>
+<p>Some words are better read slowly.<br>
+Choose what feels right tonight.</p>
 
 <div class="choice-box">
 <div class="card" onclick="openSection('poemChoice')">🌙 Poem</div>
 <div class="card" onclick="openSection('letterChoice')">💌 Letter</div>
 </div>
 </div>
-
 
 <!-- POEM -->
 
@@ -217,23 +276,27 @@ Choose what your heart wishes to read tonight.</p>
 
 <div class="poem">
 
-If I could fold the night,
-I would place it gently in your hands —
-so whenever darkness found you,
-you would remember
-that even the sky bends
-to become something beautiful.
+You don’t enter a room loudly.
+You don’t try to be noticed.
 
-You are not a passing moment.
-You are the pause between chaos,
-the soft echo after laughter,
-the calm the ocean secretly envies.
+But somehow,
+I notice.
 
-And if someday
-you forget how brightly you glow,
-look for me —
-I will be the one
-still believing in your light.
+Not because you shine like fireworks —
+but because you stay,
+like a steady light
+that doesn’t flicker.
+
+There’s something calm about you.
+Something that makes noise feel distant.
+
+And I don’t know
+if you realize it,
+
+but sometimes
+just knowing you exist
+makes my day feel
+a little less heavy.
 
 </div>
 
@@ -247,8 +310,6 @@ still believing in your light.
 
 <button onclick="goHome()">← Back</button>
 </div>
-
-
 
 <!-- LETTER CHOICE -->
 
@@ -266,8 +327,6 @@ still believing in your light.
 <button onclick="goHome()">← Back</button>
 </div>
 
-
-
 <!-- NEW LETTER -->
 
 <div id="newLetter" class="section">
@@ -278,29 +337,36 @@ still believing in your light.
 
 <p style="white-space:pre-line; text-align:left;">
 
-There is something quietly extraordinary about the way certain people
-enter our lives — not loudly, not dramatically —
-but like sunrise… inevitable and warm.
+I won’t make this dramatic.
 
-I don’t know when you became a thought I return to
-in the middle of ordinary days,
-but now your presence feels stitched
-into the fabric of my hours.
+I just wanted to say something honest.
 
-If life is a long journey,
-then meeting you feels like discovering
-I was never walking alone.
+You’ve been on my mind lately —
+not in a loud way,
+not in a way that demands attention,
+but in the quiet moments.
 
-And perhaps I won't say this often,
-but the world is softer
-simply because you are in it.
+Like when I see something random
+and think,
+“he would probably comment on that.”
+
+It’s strange how some people
+slowly become part of your thoughts
+without asking permission.
+
+I don’t know what the future looks like.
+I don’t know what we’ll become.
+
+But I do know this —
+meeting you changed something small in me.
+
+And sometimes,
+small things matter the most.
 
 </p>
 
 <button onclick="backToLetters()">← Back</button>
 </div>
-
-
 
 <!-- OLD LETTER -->
 
@@ -313,21 +379,29 @@ simply because you are in it.
 <p style="white-space:pre-line; text-align:left;">
 
 A year ago,
-I wondered if time would blur certain memories.
+I tried convincing myself
+that distance makes everything fade.
 
-It didn’t.
+It doesn’t.
 
-Some people remain vivid —
-untouched by distance,
-unchanged by seasons.
+Some people stay.
 
-You were one of those rare constants,
-like a favorite melody the heart refuses to forget.
+Not loudly.
+Not constantly.
 
-And if time has taught me anything,
-it is this:
+But quietly.
 
-Some connections are never truly past tense.
+I thought time would make things feel smaller.
+Instead, it just made them clearer.
+
+What we had —
+even if it was simple —
+was real.
+
+And I don’t regret feeling it.
+
+Some connections don’t disappear.
+They just grow softer around the edges.
 
 </p>
 
@@ -336,8 +410,19 @@ Some connections are never truly past tense.
 
 </div>
 
-
 <script>
+
+const correctPassword = "coffee";
+
+function checkPassword(){
+let input = document.getElementById("passwordInput").value;
+if(input === correctPassword){
+document.getElementById("passwordOverlay").style.display = "none";
+document.getElementById("mainContent").style.display = "block";
+}else{
+document.getElementById("errorMsg").style.display = "block";
+}
+}
 
 function openSection(id){
 document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('show'));
@@ -351,8 +436,6 @@ openSection('home');
 function backToLetters(){
 openSection('letterChoice');
 }
-
-/* rating */
 
 function rate(num){
 let stars=document.querySelectorAll('.star');
